@@ -1,11 +1,13 @@
+document.querySelector('.calculate-btn').addEventListener('click', calculate);
+
 function calculate() {
-    const assets = parseFloat(document.getElementById('assets').value) * 10000; // 만 원을 원으로 변환
-    const dividendYield = parseFloat(document.getElementById('dividendYield').value) / 100; 
-    const dividendGrowth = parseFloat(document.getElementById('dividendGrowth').value) / 100;
-    const stockGrowth = parseFloat(document.getElementById('stockGrowth').value) / 100;
-    const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000; // 만 원을 원으로 변환
-    const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100;
-    const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000; // 만 원을 원으로 변환
+    const assets = parseFloat(document.getElementById('assets').value) * 10000; // 만 원 단위
+    const dividendYield = parseFloat(document.getElementById('dividendYield').value) / 100; // 퍼센트 단위
+    const dividendGrowth = parseFloat(document.getElementById('dividendGrowth').value) / 100; // 퍼센트 단위
+    const stockGrowth = parseFloat(document.getElementById('stockGrowth').value) / 100; // 퍼센트 단위
+    let monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000; // 만 원 단위
+    const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100; // 퍼센트 단위
+    const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000; // 만 원 단위
 
     let currentAssets = assets;
     let years = 0;
@@ -18,13 +20,11 @@ function calculate() {
     }
 
     // 결과 출력
-    document.getElementById('result').innerHTML = `
-        목표 달성 시기: ${years} 년 후<br>
-        목표 달성 시 총 자산: ${(currentAssets / 10000).toFixed(2)} 만 원<br>
-        목표 달성 시 총 투자 원금: ${(assets + (monthlyInvestment * 12 * years) / 10000).toFixed(2)} 만 원<br>
-        목표 달성 후 월 배당금: ${(currentAssets * dividendYield / 12 / 10000).toFixed(2)} 만 원
-    `;
-}
+    document.getElementById('years').textContent = years;
+    document.getElementById('totalAssets').textContent = (currentAssets / 10000).toFixed(2);
+    document.getElementById('totalInvestment').textContent = (assets + (monthlyInvestment * 12 * years) / 10000).toFixed(2);
+    document.getElementById('monthlyDividend').textContent = ((currentAssets * dividendYield) / 12 / 10000).toFixed(2);
 
-// 버튼 클릭 이벤트
-document.querySelector('.calculate-btn').addEventListener('click', calculate);
+    // 결과 표시
+    document.querySelector('.result').style.display = 'block';
+}
