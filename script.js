@@ -17,6 +17,10 @@ document.getElementById('view-history').addEventListener('click', function() {
     viewHistory();
 });
 
+function formatNumber(num) {
+    return num.toLocaleString('ko-KR'); // 한국식 숫자 포맷
+}
+
 function calculate() {
     const assets = parseFloat(document.getElementById('assets').value) * 10000; // 만 원 단위
     const dividendYield = parseFloat(document.getElementById('dividendYield').value) / 100;
@@ -37,7 +41,7 @@ function calculate() {
 
     // 목표 달성 기간 계산
     while (currentAssets * dividendYield < goalDividend) {
-        detailedCalculations.push(`Year ${years + 1}: 총 자산 ${(currentAssets / 10000).toFixed(2)} 만 원, 목표 월 배당금 ${(currentAssets * dividendYield / 12 / 10000).toFixed(2)} 만 원`);
+        detailedCalculations.push(`Year ${years + 1}: 총 자산 ${formatNumber(currentAssets / 10000)} 만 원, 월 배당금 ${formatNumber((currentAssets * dividendYield) / 12 / 10000)} 만 원`);
         
         currentAssets += monthlyInvestment * 12; // 연간 투입금 추가
         currentAssets *= (1 + stockGrowth); // 자산 성장률 적용
@@ -50,7 +54,7 @@ function calculate() {
     }
 
     // 목표 월 배당금 계산
-    const goalDividendPerMonth = (currentAssets * dividendYield) / 12 / 10000; // 목표 월 배당금
+    const goalDividendPerMonth = Math.floor((currentAssets * dividendYield) / 12 / 10000); // 목표 월 배당금 (정수)
 
     // 결과 표시
     const resultDiv = document.getElementById('result');
@@ -58,15 +62,15 @@ function calculate() {
     resultDiv.innerHTML = `
         <strong>계산 결과:</strong><br>
         <span>목표 월 배당금 달성까지 예상 소요 기간: <strong>${years}년</strong></span><br>
-        <span>총 투자 금액: <strong>${((assets + (monthlyInvestment * 12 * years)) / 10000).toFixed(2)} 만 원</strong></span><br>
-        <span>최종 자산: <strong>${(currentAssets / 10000).toFixed(2)} 만 원</strong></span><br>
-        <span>목표 월 배당금: <strong>${goalDividendPerMonth.toFixed(2)} 만 원</strong></span><br><br>
+        <span>총 투자 금액: <strong>${formatNumber((assets + (monthlyInvestment * 12 * years)) / 10000)} 만 원</strong></span><br>
+        <span>최종 자산: <strong>${formatNumber(currentAssets / 10000)} 만 원</strong></span><br>
+        <span>목표 월 배당금: <strong>${goalDividendPerMonth} 만 원</strong></span><br><br>
         <strong>상세 계산 과정:</strong><br>
         <ul>${detailedCalculations.map(item => `<li>${item}</li>`).join('')}</ul>
     `;
 
     // 목표 진행 상태 표시
-    goalProgress.innerHTML = `현재 자산의 ${((currentAssets * dividendYield) / goalDividend * 100).toFixed(2)}% 목표 달성!`;
+    goalProgress.innerHTML = `현재 자산의 ${(currentAssets * dividendYield / goalDividend * 100).toFixed(2)}% 목표 달성!`;
 
     createChart(yearData, assetData); // 차트 생성
     document.getElementById('loading').style.display = 'none'; // 로딩 숨김
