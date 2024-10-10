@@ -66,7 +66,7 @@ input:focus, select:focus {
     font-size: 16px;
 }
 
-.result, .goal-progress, .motivation-message {
+.result, .goal-progress, .motivation-message, .detailed-results {
     margin-top: 20px;
     padding: 10px;
     border: 1px solid #ddd;
