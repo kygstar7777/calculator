@@ -6,7 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     color: #fff;
-    background: url('https://images.unsplash.com/photo-1511201846414-5c7a5fcb2d43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDN8fHdpdHRlcnxlbnwwfHx8fDE2MjY5OTYzNzE&ixlib=rb-1.2.1&q=80&w=1920') no-repeat center center fixed;
+    background: url('https://images.unsplash.com/photo-1600169626356-3600cf8f75a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fHVuaXZlcnNlJTIwY29sb3J8ZW58MHx8fHwxNjY2MDAwNjEz&ixlib=rb-1.2.1&q=80&w=1920') no-repeat center center fixed;
     background-size: cover;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -19,7 +19,6 @@ body {
     width: 90%;
     max-width: 450px;
     text-align: center;
-    transition: transform 0.3s;
 }
 
 h1 {
@@ -88,6 +87,16 @@ button:active {
     display: none;
     font-size: 18px;
     color: #e1bee7;
+}
+
+.goal-progress {
+    margin-top: 20px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #343a40;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #007bff;
 }
 
 .toggle-theme, .save-calculation, .view-history {
