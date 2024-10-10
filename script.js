@@ -18,13 +18,13 @@ document.getElementById('view-history').addEventListener('click', function() {
 });
 
 function calculate() {
-    const assets = parseFloat(document.getElementById('assets').value) * 10000;
+    const assets = parseFloat(document.getElementById('assets').value) * 10000; // 만 원 단위
     const dividendYield = parseFloat(document.getElementById('dividendYield').value) / 100;
     const dividendGrowth = parseFloat(document.getElementById('dividendGrowth').value) / 100;
     const stockGrowth = parseFloat(document.getElementById('stockGrowth').value) / 100;
-    const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000;
+    let monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000; // 만 원 단위
     const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100;
-    const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000;
+    const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000; // 만 원 단위
 
     let currentAssets = assets;
     let years = 0;
@@ -32,6 +32,8 @@ function calculate() {
     const yearData = [];
     const assetData = [];
     const goalProgress = document.getElementById('goalProgress');
+
+    document.getElementById('loading').style.display = 'block'; // 로딩 표시
 
     // 목표 달성 기간 계산
     while (currentAssets * dividendYield < goalDividend) {
@@ -47,7 +49,7 @@ function calculate() {
         assetData.push(currentAssets / 10000); // 만 원 단위로 저장
     }
 
-    const totalInvestment = assets + (monthlyInvestment * 12 * years);
+    // 목표 월 배당금 계산
     const goalDividendPerMonth = (currentAssets * dividendYield) / 12 / 10000; // 목표 월 배당금
 
     // 결과 표시
@@ -56,7 +58,7 @@ function calculate() {
     resultDiv.innerHTML = `
         <strong>계산 결과:</strong><br>
         <span>목표 월 배당금 달성까지 예상 소요 기간: <strong>${years}년</strong></span><br>
-        <span>총 투자 금액: <strong>${(totalInvestment / 10000).toFixed(2)} 만 원</strong></span><br>
+        <span>총 투자 금액: <strong>${((assets + (monthlyInvestment * 12 * years)) / 10000).toFixed(2)} 만 원</strong></span><br>
         <span>최종 자산: <strong>${(currentAssets / 10000).toFixed(2)} 만 원</strong></span><br>
         <span>목표 월 배당금: <strong>${goalDividendPerMonth.toFixed(2)} 만 원</strong></span><br><br>
         <strong>상세 계산 과정:</strong><br>
@@ -67,6 +69,7 @@ function calculate() {
     goalProgress.innerHTML = `현재 자산의 ${((currentAssets * dividendYield) / goalDividend * 100).toFixed(2)}% 목표 달성!`;
 
     createChart(yearData, assetData); // 차트 생성
+    document.getElementById('loading').style.display = 'none'; // 로딩 숨김
 }
 
 function createChart(years, assets) {
