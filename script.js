@@ -26,14 +26,17 @@ function calculate() {
 
     document.getElementById('loading').style.display = 'block'; // 로딩 표시
 
-    while (currentAssets < goalDividend * 12) {
-        currentAssets += monthlyInvestment * 12; // 연간 투자금 추가
+    // 목표 달성 기간 계산
+    while ((currentAssets * dividendYield / 12) < goalDividend) {
+        detailedCalculations.push(`Year ${years + 1}: 자산 ${formatNumber(currentAssets / 10000)} 만 원, 월 배당금 ${formatNumber((currentAssets * dividendYield) / 12 / 10000)} 만 원`);
+        
+        currentAssets += monthlyInvestment * 12; // 연간 투입금 증가
+        monthlyInvestment *= (1 + investmentGrowth); // 매년 투입금 증가
         currentAssets *= (1 + stockGrowth); // 매년 자산 증가
         
         yearData.push(`Year ${years + 1}`);
         assetData.push(currentAssets / 10000); // 만 원 단위로 변환
         years++;
-        monthlyInvestment *= (1 + investmentGrowth); // 매년 추가 투자금 증가
     }
 
     // 최종 결과 출력
@@ -45,7 +48,6 @@ function calculate() {
         최종 자산: ${formatNumber(currentAssets / 10000)} 만 원<br>
         목표 월 배당금: ${formatNumber(finalDividend / 10000)} 만 원
     `;
-    document.getElementById('result').style.display = 'block'; // 결과 영역 표시
 
     // 목표 진행 상황 업데이트
     goalProgress.innerHTML = `<strong>목표 진행 상황:</strong> ${formatNumber(goalDividend / 10000)} 만 원 (현재 월 배당금)`;
@@ -57,9 +59,6 @@ function calculate() {
     displayChart(yearData, assetData);
     
     document.getElementById('loading').style.display = 'none'; // 로딩 숨기기
-
-    // 결과 공유 버튼 표시
-    document.getElementById('shareResult').style.display = 'block';
 }
 
 function displayChart(labels, data) {
@@ -99,22 +98,8 @@ function displayChart(labels, data) {
         });
 }
 
-// 배경 선택 기능
-document.getElementById('backgroundSelect').addEventListener('change', function() {
-    const backgroundUrl = this.value;
-    document.body.style.backgroundImage = `url('${backgroundUrl}')`; // 선택한 배경 이미지 적용
-});
-
 // 다크 모드 전환
 document.getElementById('toggle-theme').addEventListener('click', function() {
     const body = document.body;
     body.classList.toggle('dark-mode');
-});
-
-// 공유하기 기능
-document.getElementById('shareResult').addEventListener('click', function() {
-    const resultText = document.getElementById('result').innerText;
-    navigator.clipboard.writeText(resultText).then(() => {
-        alert('결과가 클립보드에 복사되었습니다!');
-    });
 });
