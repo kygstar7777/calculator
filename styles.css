@@ -6,7 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     color: #fff;
-    background: url('image.png') no-repeat center center fixed; /* 기본 우주 이미지 */
+    background: url('image.png') no-repeat center center fixed;
     background-size: cover;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -21,6 +21,11 @@ body {
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    transition: transform 0.2s;
+}
+
+.calculator:hover {
+    transform: scale(1.02); /* 마우스 오버 시 약간의 확대 효과 */
 }
 
 h1 {
@@ -44,7 +49,7 @@ h1 {
     padding: 10px;
     border: 1px solid #007bff;
     display: none;
-    animation: fadeIn 0.5s; /* 애니메이션 효과 추가 */
+    animation: fadeIn 0.5s;
 }
 
 .goal-progress {
@@ -66,3 +71,30 @@ h1 {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+/* 버튼 스타일 */
+.btn {
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* 버튼 확대 효과 */
+}
+
+/* 아이콘 색상 */
+.fas {
+    margin-right: 5px;
+}
+
+/* 다크 모드 스타일 */
+.dark-mode {
+    background-color: #121212;
+    color: #fff;
+}
+
+.dark-mode .calculator {
+    background-color: rgba(30, 30, 30, 0.85);
+    border: 1px solid #444;
+}
+
