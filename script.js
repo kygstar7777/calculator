@@ -12,6 +12,11 @@ function calculate() {
     const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100;
     const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000;
 
+    if (assets < 0 || monthlyInvestment < 0 || goalDividend < 0) {
+        alert("모든 입력 값은 0 이상이어야 합니다.");
+        return;
+    }
+
     let currentAssets = assets;
     let years = 0;
 
@@ -26,10 +31,10 @@ function calculate() {
 
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = `
-        목표 달성 시기: ${years} 년 후<br>
-        목표 달성 시 총 자산: ${(currentAssets / 10000).toFixed(2)} 만 원<br>
-        목표 달성 시 총 투자 원금: ${(totalInvestment / 10000).toFixed(2)} 만 원<br>
-        목표 달성 후 월 배당금: ${(currentAssets * dividendYield / 12 / 10000).toFixed(2)} 만 원
+        <strong>목표 달성 시기:</strong> ${years} 년 후<br>
+        <strong>목표 달성 시 총 자산:</strong> ${(currentAssets / 10000).toFixed(2)} 만 원<br>
+        <strong>목표 달성 시 총 투자 원금:</strong> ${(totalInvestment / 10000).toFixed(2)} 만 원<br>
+        <strong>목표 달성 후 월 배당금:</strong> ${(currentAssets * dividendYield / 12 / 10000).toFixed(2)} 만 원
     `;
     resultDiv.style.display = 'block'; // 결과를 보이도록 설정
 }
