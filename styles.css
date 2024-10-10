@@ -1,45 +1,42 @@
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
+    color: #333;
 }
 
-.calculator {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.container {
+    max-width: 600px;
+    margin: auto;
     padding: 20px;
-    width: 400px; /* 너비를 넓게 조정 */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
     text-align: center;
+    color: #0056b3;
 }
 
-input,
+input[type="number"],
+input[type="text"],
 select {
     width: 100%;
-    height: 40px;
-    font-size: 16px;
-    text-align: right;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding-right: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button {
-    height: 50px;
-    width: 100%;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
     background-color: #0056b3;
     color: white;
+    border: none;
+    padding: 15px;
     cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 16px;
 }
 
 button:hover {
@@ -47,7 +44,8 @@ button:hover {
 }
 
 .result {
-    margin-top: 15px;
-    font-size: 18px;
-    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background: #e9ecef;
+    border-radius: 4px;
 }
