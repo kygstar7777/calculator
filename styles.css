@@ -6,7 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     color: #fff;
-    background: url('image.png') no-repeat center center fixed; /* 기본 우주 이미지 */
+    background: url('image.png') no-repeat center center fixed; /* 업로드된 우주 이미지 */
     background-size: cover;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -44,7 +44,6 @@ h1 {
     padding: 10px;
     border: 1px solid #007bff;
     display: none;
-    animation: fadeIn 0.5s; /* 애니메이션 효과 추가 */
 }
 
 .goal-progress {
@@ -60,9 +59,4 @@ h1 {
 .chart {
     margin-top: 20px;
     display: none;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
