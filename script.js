@@ -47,16 +47,27 @@ function calculate() {
 
     let currentAssets = assets;
     let years = 0;
+    const yearData = [];
+    const assetData = [];
+    const detailedCalculations = []; // 계산 과정 상세히 저장할 배열
 
     // 계산을 수행
     while (currentAssets * dividendYield < goalDividend) {
+        // 각 연도별 계산 과정 추가
+        detailedCalculations.push(`Year ${years + 1}: 총 자산 ${(currentAssets / 10000).toFixed(2)} 만 원`);
+
         currentAssets += monthlyInvestment * 12; // 연간 투입금 추가
         currentAssets *= (1 + stockGrowth); // 자산 성장률 적용
         monthlyInvestment *= (1 + investmentGrowth); // 월 추가 투입금 증가율 적용
         years++;
+
+        // 연도별 데이터 저장
+        yearData.push(years);
+        assetData.push(currentAssets / 10000); // 만 원 단위로 저장
     }
 
     const totalInvestment = assets + (monthlyInvestment * 12 * years);
+    const goalDividendPerMonth = (currentAssets * dividendYield) / 12 / 10000; // 목표 월 배당금
 
     // 결과 표시
     const resultDiv = document.getElementById('result');
@@ -65,7 +76,49 @@ function calculate() {
         <strong>계산 결과:</strong><br>
         <span>목표 월 배당금 달성까지 예상 소요 기간: <strong>${years}년</strong></span><br>
         <span>총 투자 금액: <strong>${(totalInvestment / 10000).toFixed(2)} 만 원</strong></span><br>
-        <span>최종 자산: <strong>${(currentAssets / 10000).toFixed(2)} 만 원</strong></span>
+        <span>최종 자산: <strong>${(currentAssets / 10000).toFixed(2)} 만 원</strong></span><br>
+        <span>목표 월 배당금: <strong>${goalDividendPerMonth.toFixed(2)} 만 원</strong></span><br><br>
+        <strong>상세 계산 과정:</strong><br>
+        <ul>${detailedCalculations.map(item => `<li>${item}</li>`).join('')}</ul>
     `;
+    
+    createChart(yearData, assetData); // 차트 생성
     loadingDiv.style.display = 'none'; // 로딩 스피너 숨기기
+}
+
+// 차트 생성 함수
+function createChart(years, assets) {
+    const ctx = document.getElementById('growthChart').getContext('2d');
+    const growthChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [{
+                label: '최종 자산 (만 원)',
+                data: assets,
+                borderColor: 'rgba(0, 123, 255, 1)',
+                backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: '연도'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '자산 (만 원)'
+                    }
+                }
+            }
+        }
+    });
+    document.getElementById('growthChart').style.display = 'block'; // 차트 영역 표시
 }
