@@ -49,16 +49,30 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     let futureAssets = currentAssets;
     let years = 0;
     const futureAssetValues = []; // 자산 변화를 기록할 배열
+    const detailedResults = []; // 상세 결과 기록 배열
 
     while (futureAssets < goalDividend) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금
         futureAssets = futureAssets * (1 + dividendYield * dividendReinvestmentRate + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
+        
+        // 연차별 상세 결과 기록
+        detailedResults.push({
+            year: years,
+            annualDividend: annualDividend,
+            totalAssets: futureAssets,
+            totalInvestment: (years * 12 * monthlyInvestment) + currentAssets,
+            reinvestedDividends: annualDividend * dividendReinvestmentRate
+        });
+        
         futureAssetValues.push(futureAssets);
         years++;
     }
 
     const result = `목표 배당금: ${goalDividend / 10000} 만 원에 도달하기까지 약 ${years}년이 걸립니다.`;
     document.getElementById('result').innerText = result;
+
+    // 상세 결과 표시
+    displayDetailedResults(detailedResults);
 
     // 목표 진행 상황 그래프
     drawGoalProgressChart(futureAssetValues, years);
@@ -72,6 +86,25 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     // 차트 그리기
     drawCharts(currentAssets, dividendYield, dividendGrowth, stockGrowth, monthlyInvestment, investmentGrowth, years);
 });
+
+// 상세 결과 표시 함수
+function displayDetailedResults(results) {
+    const detailedResultsDiv = document.getElementById('detailedResults');
+    detailedResultsDiv.innerHTML = ''; // 기존 내용 삭제
+
+    results.forEach(result => {
+        detailedResultsDiv.innerHTML += `
+            <div>
+                <strong>연차:</strong> ${result.year}년<br>
+                <strong>연초 배당금:</strong> ${(result.annualDividend / 10000).toFixed(2)} 만 원<br>
+                <strong>연말 보유 자산:</strong> ${(result.totalAssets / 10000).toFixed(2)} 만 원<br>
+                <strong>누적 투자 원금:</strong> ${(result.totalInvestment / 10000).toFixed(2)} 만 원<br>
+                <strong>누적 재투자 배당금:</strong> ${(result.reinvestedDividends / 10000).toFixed(2)} 만 원<br>
+                <hr>
+            </div>
+        `;
+    });
+}
 
 // 목표 진행 상황 차트 그리기
 function drawGoalProgressChart(futureAssetValues, years) {
