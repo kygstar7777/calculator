@@ -6,6 +6,12 @@ body {
     height: 100vh;
     margin: 0;
     background: linear-gradient(to right, #e9ecef, #f4f4f4);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background: #343a40;
+    color: white;
 }
 
 .calculator {
@@ -17,6 +23,10 @@ body {
     max-width: 450px;
     text-align: center;
     transition: transform 0.3s;
+}
+
+.calculator.dark-mode {
+    background: #495057;
 }
 
 h1 {
@@ -59,11 +69,16 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px; /* 버튼 간격 추가 */
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+button:active {
+    transform: scale(0.98);
 }
 
 .result {
@@ -75,6 +90,56 @@ button:hover {
     padding: 10px;
     border: 1px solid #ced4da;
     display: none; /* 숨김 상태로 시작 */
+    transition: opacity 0.5s ease;
+}
+
+.loading {
+    display: none;
+    font-size: 18px;
+    color: #007bff;
+}
+
+body.dark-mode .loading {
+    color: #e9ecef;
+}
+
+.toggle-theme, .save-calculation, .view-history {
+    margin-top: 15px;
+    font-size: 16px;
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+}
+
+.toggle-theme:hover, .save-calculation:hover, .view-history:hover {
+    text-decoration: underline;
+}
+
+.help-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #007bff;
+    border-radius: 50%;
+    margin-left: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.help-icon:focus::after,
+.help-icon:hover::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #007bff;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10;
 }
 
 @media (max-width: 500px) {
