@@ -1,4 +1,3 @@
-// 버튼 클릭 이벤트 추가
 document.querySelector('.calculate-btn').addEventListener('click', calculate);
 
 function calculate() {
@@ -12,6 +11,7 @@ function calculate() {
 
     let years = 0;
     let totalAsset = asset;
+    let totalInvestment = asset;
     let monthlyDividend = totalAsset * dividendRate / 12;
     let targetAchieved = false;
 
@@ -19,11 +19,18 @@ function calculate() {
         years++;
         monthlyDividend *= (1 + dividendGrowth);
         totalAsset += monthlyInvestment * Math.pow(1 + investmentGrowth, years);
-        
+        totalInvestment += monthlyInvestment * 12;
+
         if (monthlyDividend >= targetDividend) {
             targetAchieved = true;
         }
     }
 
-    document.getElementById('result').innerHTML = `목표 달성 시기: ${years} 년 후`;
+    // 결과 표시
+    document.getElementById('result').innerHTML = `
+        목표 달성 시기: ${years} 년 후<br>
+        목표 달성 시 총 자산: ${totalAsset.toFixed(2)} 만 원<br>
+        목표 달성 시 총 투자 원금: ${totalInvestment.toFixed(2)} 만 원<br>
+        목표 달성 후 월 배당금: ${monthlyDividend.toFixed(2)} 만 원
+    `;
 }
