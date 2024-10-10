@@ -6,7 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     color: #fff;
-    background: url('https://images.unsplash.com/photo-1600169626356-3600cf8f75a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fHVuaXZlcnNlJTIwY29sb3J8ZW58MHx8fHwxNjY2MDAwNjEz&ixlib=rb-1.2.1&q=80&w=1920') no-repeat center center fixed;
+    background: url('image.png') no-repeat center center fixed; /* 업로드된 우주 이미지 */
     background-size: cover;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -67,10 +67,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-button:active {
-    transform: scale(0.98);
-}
-
 .result {
     margin-top: 20px;
     font-size: 18px;
@@ -99,20 +95,7 @@ button:active {
     border: 1px solid #007bff;
 }
 
-.toggle-theme, .save-calculation, .view-history {
-    margin-top: 15px;
-    font-size: 16px;
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    cursor: pointer;
-}
-
-.toggle-theme:hover, .save-calculation:hover, .view-history:hover {
-    text-decoration: underline;
-}
-
 .chart {
     margin-top: 20px;
-    display: none; /* 숨김 상태로 시작 */
+    display: none;
 }
