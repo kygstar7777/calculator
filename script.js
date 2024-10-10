@@ -6,26 +6,15 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
 });
 
 document.getElementById('toggle-theme').addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
-    document.querySelector('.calculator').classList.toggle('dark-mode');
+    document.body.classList.toggle('dark-theme');
 });
 
 document.getElementById('save-calculation').addEventListener('click', function() {
-    const resultDiv = document.getElementById('result');
-    if (resultDiv.innerHTML) {
-        previousCalculations.push(resultDiv.innerHTML);
-        alert("계산 결과가 저장되었습니다.");
-    } else {
-        alert("계산 결과가 없습니다.");
-    }
+    saveCalculation();
 });
 
 document.getElementById('view-history').addEventListener('click', function() {
-    if (previousCalculations.length > 0) {
-        alert("저장된 계산 결과:\n" + previousCalculations.join("\n"));
-    } else {
-        alert("저장된 계산 결과가 없습니다.");
-    }
+    viewHistory();
 });
 
 function calculate() {
@@ -54,7 +43,7 @@ function calculate() {
     // 계산을 수행
     while (currentAssets * dividendYield < goalDividend) {
         // 각 연도별 계산 과정 추가
-        detailedCalculations.push(`Year ${years + 1}: 총 자산 ${(currentAssets / 10000).toFixed(2)} 만 원`);
+        detailedCalculations.push(`Year ${years + 1}: 총 자산 ${(currentAssets / 10000).toFixed(2)} 만 원, 월 배당금 ${(currentAssets * dividendYield / 12 / 10000).toFixed(2)} 만 원`);
 
         currentAssets += monthlyInvestment * 12; // 연간 투입금 추가
         currentAssets *= (1 + stockGrowth); // 자산 성장률 적용
@@ -121,4 +110,20 @@ function createChart(years, assets) {
         }
     });
     document.getElementById('growthChart').style.display = 'block'; // 차트 영역 표시
+}
+
+// 결과 저장 함수
+function saveCalculation() {
+    const resultDiv = document.getElementById('result').innerHTML;
+    previousCalculations.push(resultDiv);
+    alert("계산 결과가 저장되었습니다!");
+}
+
+// 계산 이력 보기 함수
+function viewHistory() {
+    if (previousCalculations.length === 0) {
+        alert("저장된 계산 결과가 없습니다.");
+    } else {
+        alert(previousCalculations.join('\n\n'));
+    }
 }
