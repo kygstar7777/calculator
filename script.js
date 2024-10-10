@@ -22,43 +22,44 @@ function calculate() {
     const yearData = [];
     const assetData = [];
     const goalProgress = document.getElementById('goalProgress');
+    const motivationMessage = document.getElementById('motivationMessage');
 
     document.getElementById('loading').style.display = 'block'; // 로딩 표시
 
-    // 목표 달성 기간 계산
-    while (currentAssets * dividendYield < goalDividend) {
-        detailedCalculations.push(`Year ${years + 1}: 총 자산 ${formatNumber(currentAssets / 10000)} 만 원, 월 배당금 ${formatNumber((currentAssets * dividendYield) / 12 / 10000)} 만 원`);
+    while (currentAssets < goalDividend * 12) {
+        currentAssets += monthlyInvestment * 12; // 연간 투자금 추가
+        currentAssets *= (1 + stockGrowth); // 매년 자산 증가
         
-        currentAssets += monthlyInvestment * 12; // 연간 투입금 추가
-        currentAssets *= (1 + stockGrowth); // 자산 성장률 적용
-        monthlyInvestment *= (1 + investmentGrowth); // 월 추가 투입금 증가율 적용
+        yearData.push(`Year ${years + 1}`);
+        assetData.push(currentAssets / 10000); // 만 원 단위로 변환
         years++;
-        
-        // 연도별 데이터 저장
-        yearData.push(years);
-        assetData.push(currentAssets / 10000); // 만 원 단위로 저장
+        monthlyInvestment *= (1 + investmentGrowth); // 매년 추가 투자금 증가
     }
 
-    // 목표 월 배당금 계산
-    const goalDividendPerMonth = Math.floor((currentAssets * dividendYield) / 12 / 10000); // 목표 월 배당금 (정수)
-
-    // 결과 표시
-    const resultDiv = document.getElementById('result');
-    resultDiv.style.display = 'block'; // 결과 영역 표시
-    resultDiv.innerHTML = `
+    // 최종 결과 출력
+    const finalDividend = (currentAssets * dividendYield) / 12;
+    document.getElementById('result').innerHTML = `
         <strong>계산 결과:</strong><br>
-        <span>목표 월 배당금 달성까지 예상 소요 기간: <strong>${years}년</strong></span><br>
-        <span>총 투자 금액: ${formatNumber(currentAssets / 10000)} 만 원</span><br>
-        <span>목표 월 배당금: ${goalDividendPerMonth} 만 원</span><br>
+        목표 월 배당금 달성까지 예상 소요 기간: ${years}년<br>
+        총 투자 금액: ${formatNumber(currentAssets / 10000)} 만 원<br>
+        최종 자산: ${formatNumber(currentAssets / 10000)} 만 원<br>
+        목표 월 배당금: ${formatNumber(finalDividend / 10000)} 만 원
     `;
+    document.getElementById('result').style.display = 'block'; // 결과 영역 표시
 
     // 목표 진행 상황 업데이트
-    goalProgress.innerHTML = `<strong>목표 진행 상황:</strong> ${formatNumber(goalDividendPerMonth)} 만 원 (현재 월 배당금)`;
+    goalProgress.innerHTML = `<strong>목표 진행 상황:</strong> ${formatNumber(goalDividend / 10000)} 만 원 (현재 월 배당금)`;
+
+    // 동기 부여 메시지 추가
+    motivationMessage.innerHTML = `현재 목표를 향해 ${years}년 동안 꾸준히 투자하고 있습니다. 계속 힘내세요!`;
 
     // 차트 표시
     displayChart(yearData, assetData);
     
     document.getElementById('loading').style.display = 'none'; // 로딩 숨기기
+
+    // 결과 공유 버튼 표시
+    document.getElementById('shareResult').style.display = 'block';
 }
 
 function displayChart(labels, data) {
@@ -97,3 +98,23 @@ function displayChart(labels, data) {
             }
         });
 }
+
+// 배경 선택 기능
+document.getElementById('backgroundSelect').addEventListener('change', function() {
+    const backgroundUrl = this.value;
+    document.body.style.backgroundImage = `url('${backgroundUrl}')`; // 선택한 배경 이미지 적용
+});
+
+// 다크 모드 전환
+document.getElementById('toggle-theme').addEventListener('click', function() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');
+});
+
+// 공유하기 기능
+document.getElementById('shareResult').addEventListener('click', function() {
+    const resultText = document.getElementById('result').innerText;
+    navigator.clipboard.writeText(resultText).then(() => {
+        alert('결과가 클립보드에 복사되었습니다!');
+    });
+});
