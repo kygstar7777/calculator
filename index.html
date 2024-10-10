@@ -3,42 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>배당금 계산기</title>
+    <title>배당재투자 계산기</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="calculator">
-        <h2>배당금 계산기</h2>
+        <h2>배당재투자 계산기</h2>
         <div class="input-group">
-            <label for="asset">보유 자산 ⓘ</label>
-            <input type="number" id="asset" placeholder="예) 1000" required>
+            <label for="asset">보유 자산</label>
+            <input type="number" id="asset" placeholder="예) 1000" />
         </div>
         <div class="input-group">
-            <label for="dividend-rate">시가 배당률 ⓘ</label>
-            <input type="number" id="dividend-rate" placeholder="예) 4.0" required>
+            <label for="dividend-rate">시가 배당률</label>
+            <input type="number" id="dividend-rate" placeholder="예) 4.0" />
         </div>
         <div class="input-group">
-            <label for="dividend-growth">배당 성장률 ⓘ</label>
-            <input type="number" id="dividend-growth" placeholder="예) 5.0" required>
+            <label for="dividend-growth">배당 성장률</label>
+            <input type="number" id="dividend-growth" placeholder="예) 5.0" />
         </div>
         <div class="input-group">
-            <label for="price-growth">배당주 시가 성장률 ⓘ</label>
-            <input type="number" id="price-growth" placeholder="예) 5.0" required>
+            <label for="monthly-investment">월 추가 투입금</label>
+            <input type="number" id="monthly-investment" placeholder="예) 100" />
         </div>
         <div class="input-group">
-            <label for="monthly-investment">월 추가 투입금 ⓘ</label>
-            <input type="number" id="monthly-investment" placeholder="예) 100" required>
+            <label for="investment-growth">투입금 증가율</label>
+            <input type="number" id="investment-growth" placeholder="예) 10.0" />
         </div>
         <div class="input-group">
-            <label for="investment-growth">투입금 증가율 ⓘ</label>
-            <input type="number" id="investment-growth" placeholder="예) 10.0" required>
-        </div>
-        <div class="input-group">
-            <label for="target-dividend">목표 월 배당금 ⓘ</label>
-            <input type="number" id="target-dividend" placeholder="예) 200" required>
+            <label for="target-dividend">목표 월 배당금</label>
+            <input type="number" id="target-dividend" placeholder="예) 200" />
         </div>
         <button class="calculate-btn">계산하기</button>
-        <div class="result" id="result"></div>
+        <div class="result" id="result">
+            목표 달성 시기: 0 년 후<br>
+            목표 달성 시 총 자산: 0 만 원<br>
+            목표 달성 시 총 투자 원금: 0 만 원<br>
+            목표 달성 후 월 배당금: 0 만 원
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
