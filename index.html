@@ -4,53 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>우주 최강 배당금 계산기</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="background"></div>
-    <div class="calculator">
-        <h1>우주 최강 배당금 계산기</h1>
-        <form id="calculatorForm">
-            <div class="input-group">
-                <label for="assets">보유 자산 (만 원)</label>
-                <input type="number" id="assets" required value="1000" placeholder="예) 1000">
-            </div>
-            <div class="input-group">
-                <label for="dividendYield">시가 배당률 (%)</label>
-                <input type="number" id="dividendYield" required step="0.1" value="4.0" placeholder="예) 4.0">
-            </div>
-            <div class="input-group">
-                <label for="dividendGrowth">배당 성장률 (%)</label>
-                <input type="number" id="dividendGrowth" required step="0.1" value="5.0" placeholder="예) 5.0">
-            </div>
-            <div class="input-group">
-                <label for="stockGrowth">배당주 시가 성장률 (%)</label>
-                <input type="number" id="stockGrowth" required step="0.1" value="5.0" placeholder="예) 5.0">
-            </div>
-            <div class="input-group">
-                <label for="monthlyInvestment">월 추가 투입금 (만 원)</label>
-                <input type="number" id="monthlyInvestment" required value="100" placeholder="예) 100">
-            </div>
-            <div class="input-group">
-                <label for="investmentGrowth">투입금 증가율 (%)</label>
-                <input type="number" id="investmentGrowth" required step="0.1" value="10.0" placeholder="예) 10.0">
-            </div>
-            <div class="input-group">
-                <label for="goalDividend">목표 월 배당금 (만 원)</label>
-                <input type="number" id="goalDividend" required value="200" placeholder="예) 200">
-            </div>
-            <button type="submit" class="calculate-btn">계산하기</button>
-            <div id="loading" class="loading" aria-hidden="true">계산 중...</div>
-        </form>
+    <div class="container">
+        <div class="calculator card">
+            <div class="card-body">
+                <h1 class="card-title text-center">우주 최강 배당금 계산기</h1>
+                <form id="calculatorForm">
+                    <div class="form-group">
+                        <label for="assets">보유 자산 (만 원)</label>
+                        <input type="number" class="form-control" id="assets" required value="1000" placeholder="예) 1000" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="dividendYield">시가 배당률 (%)</label>
+                        <input type="number" class="form-control" id="dividendYield" required step="0.1" value="4.0" placeholder="예) 4.0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="dividendGrowth">배당 성장률 (%)</label>
+                        <input type="number" class="form-control" id="dividendGrowth" required step="0.1" value="5.0" placeholder="예) 5.0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="stockGrowth">배당주 시가 성장률 (%)</label>
+                        <input type="number" class="form-control" id="stockGrowth" required step="0.1" value="5.0" placeholder="예) 5.0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="monthlyInvestment">월 추가 투입금 (만 원)</label>
+                        <input type="number" class="form-control" id="monthlyInvestment" required value="100" placeholder="예) 100" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="investmentGrowth">투입금 증가율 (%)</label>
+                        <input type="number" class="form-control" id="investmentGrowth" required step="0.1" value="10.0" placeholder="예) 10.0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="goalDividend">목표 월 배당금 (만 원)</label>
+                        <input type="number" class="form-control" id="goalDividend" required value="200" placeholder="예) 200" min="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block calculate-btn">계산하기</button>
+                    <div id="loading" class="loading" aria-hidden="true">계산 중...</div>
+                </form>
 
-        <div id="result" class="result" aria-live="polite"></div>
-        <canvas id="growthChart" class="chart" aria-hidden="true"></canvas>
-        
-        <h2>목표 달성 진행 상황</h2>
-        <div id="goalProgress" class="goal-progress"></div>
+                <div id="result" class="result" aria-live="polite"></div>
+                <canvas id="growthChart" class="chart" aria-hidden="true"></canvas>
+                
+                <h2 class="mt-4">목표 달성 진행 상황</h2>
+                <div id="goalProgress" class="goal-progress"></div>
+                <div class="form-group">
+                    <label for="goalAchieved">목표 달성 여부</label>
+                    <input type="checkbox" id="goalAchieved" />
+                </div>
 
-        <button id="toggle-theme" class="toggle-theme">다크 모드 전환</button>
+                <div id="motivationMessage" class="mt-4"></div>
+
+                <button id="shareResult" class="btn btn-success btn-block mt-3" style="display: none;">결과 공유하기</button>
+                <button id="toggle-theme" class="btn btn-secondary btn-block mt-3">다크 모드 전환</button>
+                <select id="backgroundSelect" class="form-control mt-3">
+                    <option value="image.png">우주 이미지 선택</option>
+                    <option value="other_background.jpg">다른 배경 이미지 선택</option>
+                </select>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
