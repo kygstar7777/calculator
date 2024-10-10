@@ -3,18 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>배당 계산기</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>배당금 계산기</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="calculator">
-        <h1>배당 계산기</h1>
-        <input type="number" id="investment" placeholder="투자 금액">
-        <input type="number" id="dividend" placeholder="주당 배당금">
-        <input type="number" id="shares" placeholder="주식 수">
-        <button onclick="calculateDividend()">계산하기</button>
-        <div id="result"></div>
+        <h2>배당금 계산기</h2>
+        <div class="input-group">
+            <label for="stock-count">주식 수량</label>
+            <input type="number" id="stock-count" placeholder="예: 100">
+        </div>
+        <div class="input-group">
+            <label for="dividend-rate">배당률(%)</label>
+            <input type="number" id="dividend-rate" placeholder="예: 3.5">
+        </div>
+        <div class="input-group">
+            <label for="stock-price">주가(₩)</label>
+            <input type="number" id="stock-price" placeholder="예: 50000">
+        </div>
+        <button class="calculate-btn" onclick="calculateDividend()">계산하기</button>
+        <div class="result" id="result"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
