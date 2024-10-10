@@ -1,3 +1,6 @@
+// 버튼 클릭 이벤트 추가
+document.querySelector('.calculate-btn').addEventListener('click', calculate);
+
 function calculate() {
     let asset = parseFloat(document.getElementById('asset').value);
     let dividendRate = parseFloat(document.getElementById('dividend-rate').value) / 100;
@@ -7,7 +10,6 @@ function calculate() {
     let investmentGrowth = parseFloat(document.getElementById('investment-growth').value) / 100;
     let targetDividend = parseFloat(document.getElementById('target-dividend').value);
 
-    // 나머지 계산 로직 추가
     let years = 0;
     let totalAsset = asset;
     let monthlyDividend = totalAsset * dividendRate / 12;
