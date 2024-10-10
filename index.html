@@ -11,34 +11,34 @@
     <div class="background"></div>
     <div class="calculator">
         <h1>우주 최강 배당금 계산기</h1>
-        <form id="calculatorForm" aria-label="배당금 계산기">
+        <form id="calculatorForm">
             <div class="input-group">
                 <label for="assets">보유 자산 (만 원)</label>
-                <input type="number" id="assets" placeholder="예) 1000" required value="1000">
+                <input type="number" id="assets" required value="1000" placeholder="예) 1000">
             </div>
             <div class="input-group">
                 <label for="dividendYield">시가 배당률 (%)</label>
-                <input type="number" id="dividendYield" placeholder="예) 4.0" required step="0.1" value="4.0">
+                <input type="number" id="dividendYield" required step="0.1" value="4.0" placeholder="예) 4.0">
             </div>
             <div class="input-group">
                 <label for="dividendGrowth">배당 성장률 (%)</label>
-                <input type="number" id="dividendGrowth" placeholder="예) 5.0" required step="0.1" value="5.0">
+                <input type="number" id="dividendGrowth" required step="0.1" value="5.0" placeholder="예) 5.0">
             </div>
             <div class="input-group">
                 <label for="stockGrowth">배당주 시가 성장률 (%)</label>
-                <input type="number" id="stockGrowth" placeholder="예) 5.0" required step="0.1" value="5.0">
+                <input type="number" id="stockGrowth" required step="0.1" value="5.0" placeholder="예) 5.0">
             </div>
             <div class="input-group">
                 <label for="monthlyInvestment">월 추가 투입금 (만 원)</label>
-                <input type="number" id="monthlyInvestment" placeholder="예) 100" required value="100">
+                <input type="number" id="monthlyInvestment" required value="100" placeholder="예) 100">
             </div>
             <div class="input-group">
                 <label for="investmentGrowth">투입금 증가율 (%)</label>
-                <input type="number" id="investmentGrowth" placeholder="예) 10.0" required step="0.1" value="10.0">
+                <input type="number" id="investmentGrowth" required step="0.1" value="10.0" placeholder="예) 10.0">
             </div>
             <div class="input-group">
                 <label for="goalDividend">목표 월 배당금 (만 원)</label>
-                <input type="number" id="goalDividend" placeholder="예) 200" required value="200">
+                <input type="number" id="goalDividend" required value="200" placeholder="예) 200">
             </div>
             <button type="submit" class="calculate-btn">계산하기</button>
             <div id="loading" class="loading" aria-hidden="true">계산 중...</div>
@@ -47,12 +47,10 @@
         <div id="result" class="result" aria-live="polite"></div>
         <canvas id="growthChart" class="chart" aria-hidden="true"></canvas>
         
-        <h2>목표 설정</h2>
+        <h2>목표 달성 진행 상황</h2>
         <div id="goalProgress" class="goal-progress"></div>
 
         <button id="toggle-theme" class="toggle-theme">다크 모드 전환</button>
-        <button id="save-calculation" class="save-calculation">계산 결과 저장</button>
-        <button id="view-history" class="view-history">계산 이력 보기</button>
     </div>
 
     <script src="script.js"></script>
