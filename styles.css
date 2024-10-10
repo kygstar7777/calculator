@@ -5,17 +5,14 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(to right, #e9ecef, #f4f4f4);
+    color: #fff;
+    background: url('https://source.unsplash.com/1600x900/?space,galaxy') no-repeat center center fixed;
+    background-size: cover;
     transition: background-color 0.3s, color 0.3s;
 }
 
-body.dark-mode {
-    background: #343a40;
-    color: white;
-}
-
 .calculator {
-    background: white;
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 15px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
     padding: 30px;
@@ -25,13 +22,8 @@ body.dark-mode {
     transition: transform 0.3s;
 }
 
-.calculator.dark-mode {
-    background: #495057;
-}
-
 h1 {
     font-size: 32px;
-    color: #343a40;
     margin-bottom: 20px;
 }
 
@@ -42,7 +34,6 @@ h1 {
 
 label {
     font-size: 14px;
-    color: #495057;
 }
 
 input {
@@ -50,14 +41,14 @@ input {
     height: 40px;
     font-size: 16px;
     margin-bottom: 5px;
-    border: 2px solid #ced4da;
+    border: 2px solid #007bff;
     border-radius: 5px;
-    padding-right: 10px;
+    padding: 10px;
     transition: border-color 0.3s;
 }
 
 input:focus {
-    border-color: #007bff;
+    border-color: #e1bee7;
     outline: none;
 }
 
@@ -70,7 +61,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    margin-top: 10px; /* 버튼 간격 추가 */
+    margin-top: 10px;
 }
 
 button:hover {
@@ -84,23 +75,19 @@ button:active {
 .result {
     margin-top: 20px;
     font-size: 18px;
-    color: #495057;
-    background-color: #e9ecef;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #343a40;
     border-radius: 5px;
     padding: 10px;
-    border: 1px solid #ced4da;
-    display: none; /* 숨김 상태로 시작 */
+    border: 1px solid #007bff;
+    display: none;
     transition: opacity 0.5s ease;
 }
 
 .loading {
     display: none;
     font-size: 18px;
-    color: #007bff;
-}
-
-body.dark-mode .loading {
-    color: #e9ecef;
+    color: #e1bee7;
 }
 
 .toggle-theme, .save-calculation, .view-history {
@@ -116,6 +103,11 @@ body.dark-mode .loading {
     text-decoration: underline;
 }
 
+.chart {
+    margin-top: 20px;
+    display: none; /* 숨김 상태로 시작 */
+}
+
 .help-icon {
     display: inline-block;
     width: 12px;
@@ -125,34 +117,4 @@ body.dark-mode .loading {
     margin-left: 5px;
     cursor: pointer;
     position: relative;
-}
-
-.help-icon:focus::after,
-.help-icon:hover::after {
-    content: attr(aria-label);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    border: 1px solid #007bff;
-    padding: 5px;
-    border-radius: 5px;
-    white-space: nowrap;
-    z-index: 10;
-}
-
-@media (max-width: 500px) {
-    .calculator {
-        width: 90%;
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    button {
-        font-size: 16px;
-    }
 }
