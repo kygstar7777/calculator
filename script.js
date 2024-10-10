@@ -1,11 +1,11 @@
 function calculate() {
-    const asset = parseFloat(document.getElementById('asset').value);
-    const dividendRate = parseFloat(document.getElementById('dividend-rate').value) / 100;
-    const dividendGrowth = parseFloat(document.getElementById('dividend-growth').value) / 100;
-    const priceGrowth = parseFloat(document.getElementById('price-growth').value) / 100;
-    const monthlyInvestment = parseFloat(document.getElementById('monthly-investment').value);
-    const investmentGrowth = parseFloat(document.getElementById('investment-growth').value) / 100;
-    const targetDividend = parseFloat(document.getElementById('target-dividend').value);
+    let asset = parseFloat(document.getElementById('asset').value); // let으로 변경
+    let dividendRate = parseFloat(document.getElementById('dividend-rate').value) / 100;
+    let dividendGrowth = parseFloat(document.getElementById('dividend-growth').value) / 100;
+    let priceGrowth = parseFloat(document.getElementById('price-growth').value) / 100;
+    let monthlyInvestment = parseFloat(document.getElementById('monthly-investment').value);
+    let investmentGrowth = parseFloat(document.getElementById('investment-growth').value) / 100;
+    let targetDividend = parseFloat(document.getElementById('target-dividend').value);
 
     if (isNaN(asset) || isNaN(dividendRate) || isNaN(dividendGrowth) || isNaN(priceGrowth) || 
         isNaN(monthlyInvestment) || isNaN(investmentGrowth) || isNaN(targetDividend)) {
