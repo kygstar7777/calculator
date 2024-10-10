@@ -1,20 +1,6 @@
-const previousCalculations = [];
-
 document.getElementById('calculatorForm').addEventListener('submit', function(event) {
     event.preventDefault(); // 기본 제출 동작 방지
     calculate();
-});
-
-document.getElementById('toggle-theme').addEventListener('click', function() {
-    document.body.classList.toggle('dark-theme');
-});
-
-document.getElementById('save-calculation').addEventListener('click', function() {
-    saveCalculation();
-});
-
-document.getElementById('view-history').addEventListener('click', function() {
-    viewHistory();
 });
 
 function formatNumber(num) {
@@ -62,31 +48,32 @@ function calculate() {
     resultDiv.innerHTML = `
         <strong>계산 결과:</strong><br>
         <span>목표 월 배당금 달성까지 예상 소요 기간: <strong>${years}년</strong></span><br>
-        <span>총 투자 금액: <strong>${formatNumber((assets + (monthlyInvestment * 12 * years)) / 10000)} 만 원</strong></span><br>
-        <span>최종 자산: <strong>${formatNumber(currentAssets / 10000)} 만 원</strong></span><br>
-        <span>목표 월 배당금: <strong>${goalDividendPerMonth} 만 원</strong></span><br><br>
-        <strong>상세 계산 과정:</strong><br>
-        <ul>${detailedCalculations.map(item => `<li>${item}</li>`).join('')}</ul>
+        <span>총 투자 금액: ${formatNumber(currentAssets / 10000)} 만 원</span><br>
+        <span>목표 월 배당금: ${goalDividendPerMonth} 만 원</span><br>
     `;
 
-    // 목표 진행 상태 표시
-    goalProgress.innerHTML = `현재 자산의 ${(currentAssets * dividendYield / goalDividend * 100).toFixed(2)}% 목표 달성!`;
+    // 목표 진행 상황 업데이트
+    goalProgress.innerHTML = `<strong>목표 진행 상황:</strong> ${formatNumber(goalDividendPerMonth)} 만 원 (현재 월 배당금)`;
 
-    createChart(yearData, assetData); // 차트 생성
-    document.getElementById('loading').style.display = 'none'; // 로딩 숨김
+    // 차트 표시
+    displayChart(yearData, assetData);
+    
+    document.getElementById('loading').style.display = 'none'; // 로딩 숨기기
 }
 
-function createChart(years, assets) {
+function displayChart(labels, data) {
     const ctx = document.getElementById('growthChart').getContext('2d');
-    const growthChart = new Chart(ctx, {
+    document.getElementById('growthChart').style.display = 'block'; // 차트 영역 표시
+
+    new Chart(ctx, {
         type: 'line',
         data: {
-            labels: years,
+            labels: labels,
             datasets: [{
-                label: '최종 자산 (만 원)',
-                data: assets,
-                borderColor: 'rgba(0, 123, 255, 1)',
+                label: '자산 성장',
+                data: data,
                 backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                borderColor: 'rgba(0, 123, 255, 1)',
                 borderWidth: 2,
                 fill: true
             }]
@@ -104,24 +91,9 @@ function createChart(years, assets) {
                     title: {
                         display: true,
                         text: '자산 (만 원)'
-                    }
+                    },
+                    beginAtZero: true
                 }
             }
-        }
-    });
-    document.getElementById('growthChart').style.display = 'block'; // 차트 영역 표시
-}
-
-function saveCalculation() {
-    const resultDiv = document.getElementById('result').innerHTML;
-    previousCalculations.push(resultDiv);
-    alert("계산 결과가 저장되었습니다!");
-}
-
-function viewHistory() {
-    if (previousCalculations.length === 0) {
-        alert("저장된 계산 결과가 없습니다.");
-    } else {
-        alert(previousCalculations.join('\n\n'));
-    }
+        });
 }
