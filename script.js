@@ -4,7 +4,6 @@ function calculate() {
     let asset = parseFloat(document.getElementById('asset').value);
     let dividendRate = parseFloat(document.getElementById('dividend-rate').value) / 100;
     let dividendGrowth = parseFloat(document.getElementById('dividend-growth').value) / 100;
-    let priceGrowth = parseFloat(document.getElementById('price-growth').value) / 100;
     let monthlyInvestment = parseFloat(document.getElementById('monthly-investment').value);
     let investmentGrowth = parseFloat(document.getElementById('investment-growth').value) / 100;
     let targetDividend = parseFloat(document.getElementById('target-dividend').value);
@@ -13,17 +12,16 @@ function calculate() {
     let totalAsset = asset;
     let totalInvestment = asset;
     let monthlyDividend = totalAsset * dividendRate / 12;
-    let targetAchieved = false;
 
-    while (!targetAchieved) {
+    while (monthlyDividend < targetDividend) {
         years++;
+        
+        // 매년 배당금 성장
         monthlyDividend *= (1 + dividendGrowth);
-        totalAsset += monthlyInvestment * Math.pow(1 + investmentGrowth, years);
-        totalInvestment += monthlyInvestment * 12;
-
-        if (monthlyDividend >= targetDividend) {
-            targetAchieved = true;
-        }
+        
+        // 매년 투자 금액 증가
+        totalAsset += (monthlyInvestment * 12) * Math.pow(1 + investmentGrowth, years);
+        totalInvestment += monthlyInvestment * 12; // 총 투자 금액 업데이트
     }
 
     // 결과 표시
