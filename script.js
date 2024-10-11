@@ -75,14 +75,15 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
 
     // 계산 로직
     let futureAssets = assets;
-    let totalDividend = 0;
+    let totalDividend = 0; // 누적 배당금을 추적
     let years = 0;  // 무한 루프 방지를 위해 초기화
     const futureAssetValues = []; // 자산 변화를 기록할 배열
     const detailedResults = []; // 상세 결과 기록 배열
 
+    // while 루프가 올바르게 종료될 수 있도록 totalDividend 누적
     while (totalDividend < annualGoalDividend) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
-        totalDividend = annualDividend; // 연간 배당금을 목표로 계산
+        totalDividend += annualDividend; // 연간 배당금을 누적하여 계산
         futureAssets = futureAssets * (1 + dividendReinvestmentRate * dividendYield + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
         
         // 연간 결과 저장
@@ -97,7 +98,9 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
         years++;
 
         // 무한 루프 방지용 조건 추가
-        if (years > 100) break;
+        if (years > 100) {
+            break;
+        }
     }
 
     // 목표 달성에 대한 결과 표시
@@ -128,30 +131,4 @@ function displayDetailedResults(results) {
             <div>
                 <strong>연차:</strong> ${result.year}년<br>
                 <strong>연초 배당금:</strong> ${result.annualDividend} 만 원<br>
-                <strong>연말 보유 자산:</strong> ${result.totalAssets} 만 원<br>
-                <hr>
-            </div>
-        `;
-    });
-}
-
-// 차트 그리기 함수
-function drawGoalProgressChart(futureAssetValues, years) {
-    const ctx = document.getElementById('goalProgress').getContext('2d');
-    const labels = Array.from({ length: years }, (_, i) => `Year ${i}`);
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '자산 성장',
-                data: futureAssetValues.map(v => (v / 10000).toFixed(2)), // 만원 단위로 변환
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 2,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            scales:
+                <strong>연말 보유 자산
