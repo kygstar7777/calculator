@@ -80,11 +80,12 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     const futureAssetValues = []; // 자산 변화를 기록할 배열
     const detailedResults = []; // 상세 결과 기록 배열
 
+    // 목표 월 배당금에 도달할 때까지 연간 배당금을 누적
     while (totalDividend < annualGoalDividend) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
-        totalDividend = annualDividend; // 연간 배당금을 목표로 계산
+        totalDividend += annualDividend; // 누적 배당금
         futureAssets = futureAssets * (1 + dividendReinvestmentRate * dividendYield + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
-        
+
         // 연간 결과 저장
         detailedResults.push({
             year: years,
@@ -96,7 +97,7 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
         futureAssetValues.push(futureAssets);
         years++;
 
-        // 무한 루프 방지용 조건 추가
+        // 무한 루프 방지용 조건 추가 (최대 100년)
         if (years > 100) {
             break;
         }
