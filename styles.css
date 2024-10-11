@@ -76,6 +76,7 @@ input:focus, select:focus {
 
 .chart {
     margin-top: 20px;
+    height: 400px; /* 차트 높이 고정 */
 }
 
 .btn-share, .btn-theme, .background-select {
@@ -123,4 +124,10 @@ input:focus, select:focus {
 .dark-mode .calculator {
     background-color: rgba(30, 30, 30, 0.85);
     border: 1px solid #444;
+}
+
+.dark-mode input, .dark-mode select {
+    background-color: #333;
+    color: white;
+    border-color: #555;
 }
