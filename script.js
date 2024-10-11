@@ -25,8 +25,11 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
         const reinvestedDividend = annualDividend * dividendReinvestmentRate; // 재투자된 배당금 계산
         totalDividend = annualDividend; // 연간 배당금 누적
 
-        // 자산 증가 계산
+        // 자산 증가 계산 (주가 상승률 반영)
         futureAssets = futureAssets * (1 + stockGrowth) + monthlyInvestment * 12 + reinvestedDividend;
+
+        // 배당 성장률 반영 (배당금이 매년 상승)
+        dividendYield += dividendYield * dividendGrowth;
 
         // 투자금의 연 증가율 반영
         monthlyInvestment = monthlyInvestment * (1 + investmentGrowth); // 매년 월 투자금 증가
@@ -65,7 +68,7 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
     saveToLocalStorage();
 });
 
-// 상세 결과 출력 함수
+// 상세 결과 출력 함수 (연차별 배당금, 자산, 재투자 배당금 표시)
 function displayDetailedResults(results) {
     const detailedResultsDiv = document.getElementById('detailedResults');
     detailedResultsDiv.innerHTML = ''; // 기존 내용 삭제
