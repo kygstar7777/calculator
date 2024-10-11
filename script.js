@@ -7,9 +7,9 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
     const dividendYield = parseFloat(document.getElementById('dividendYield').value) / 100;
     const dividendGrowth = parseFloat(document.getElementById('dividendGrowth').value) / 100;
     const stockGrowth = parseFloat(document.getElementById('stockGrowth').value) / 100;
-    const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000; // 만원 단위
+    let monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000; // 만원 단위
     const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100;
-    const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000; // 만원 단위
+    const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000; // 목표 월 배당금 (만원 단위)
     const dividendReinvestmentRate = parseFloat(document.getElementById('dividendReinvestmentRate').value) / 100;
 
     // 초기 변수 설정
@@ -22,15 +22,22 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
     // 목표 월 배당금에 도달할 때까지 연간 배당금을 누적
     while (totalDividend < goalDividend * 12) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
-        totalDividend += annualDividend; // 배당금 누적
+        const reinvestedDividend = annualDividend * dividendReinvestmentRate; // 재투자된 배당금 계산
+        totalDividend = annualDividend; // 연간 배당금 누적
 
-        futureAssets = futureAssets * (1 + stockGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth); // 자산 증가 계산
+        // 자산 증가 계산
+        futureAssets = futureAssets * (1 + stockGrowth) + monthlyInvestment * 12 + reinvestedDividend;
+
+        // 투자금의 연 증가율 반영
+        monthlyInvestment = monthlyInvestment * (1 + investmentGrowth); // 매년 월 투자금 증가
 
         // 연간 자산 및 배당금 데이터 기록
         detailedResults.push({
             year: years,
             annualDividend: (annualDividend / 10000).toFixed(2), // 만원 단위로 변환
             totalAssets: (futureAssets / 10000).toFixed(2), // 만원 단위로 변환
+            reinvestedDividend: (reinvestedDividend / 10000).toFixed(2), // 재투자된 배당금
+            monthlyInvestment: (monthlyInvestment / 10000).toFixed(2), // 증가된 월 투자금
         });
 
         futureAssetValues.push(futureAssets); // 차트에 사용될 자산 값 저장
@@ -40,9 +47,12 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
         if (years > 100) break;
     }
 
-    // 결과 출력
-    const resultText = `목표 월 배당금: ${(goalDividend / 10000).toFixed(2)} 만원에 도달하기까지 약 ${years}년이 걸립니다.`;
-    document.getElementById('result').innerText = resultText;
+    // 최종 결과 출력
+    const resultText = `
+        목표 월 배당금: ${(goalDividend / 10000).toFixed(2)} 만 원에 도달하기까지 약 ${years}년이 걸립니다.<br>
+        목표 도달 시 총 자산: ${(futureAssets / 10000).toFixed(2)} 만 원
+    `;
+    document.getElementById('result').innerHTML = resultText;
     document.getElementById('result').style.display = 'block';
 
     // 상세 결과 출력
@@ -63,9 +73,11 @@ function displayDetailedResults(results) {
     results.forEach(result => {
         detailedResultsDiv.innerHTML += `
             <div>
-                <strong>연차:</strong> ${result.year}년<br>
+                <strong>연차:</strong> ${result.year + 1}년<br>
                 <strong>연간 배당금:</strong> ${result.annualDividend} 만 원<br>
                 <strong>연말 자산:</strong> ${result.totalAssets} 만 원<br>
+                <strong>재투자된 배당금:</strong> ${result.reinvestedDividend} 만 원<br>
+                <strong>연간 투자금 (연 증가율 반영):</strong> ${result.monthlyInvestment} 만 원<br>
                 <hr>
             </div>
         `;
