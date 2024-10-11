@@ -33,16 +33,17 @@ function loadFromLocalStorage() {
 
 // 입력 검증 함수
 function validateInput(value, fieldId, errorMsg) {
-    const inputField = document.getElementById(fieldId);
     const errorField = document.getElementById(`error-${fieldId}`);
-    if (isNaN(value) || value < 0) {
+    
+    if (errorField && (isNaN(value) || value < 0)) {
         errorField.innerText = errorMsg;
         errorField.style.display = 'block';
         return false;
-    } else {
+    } else if (errorField) {
         errorField.style.display = 'none';
-        return true;
     }
+    
+    return true;
 }
 
 // 계산 함수
@@ -76,14 +77,13 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     // 계산 로직
     let futureAssets = assets;
     let totalDividend = 0;
-    let years = 0;  // 무한 루프 방지를 위해 초기화
+    let years = 0;  
     const futureAssetValues = []; // 자산 변화를 기록할 배열
     const detailedResults = []; // 상세 결과 기록 배열
 
-    // 목표 월 배당금에 도달할 때까지 연간 배당금을 누적
     while (totalDividend < annualGoalDividend) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
-        totalDividend += annualDividend; // 누적 배당금
+        totalDividend += annualDividend; // 누적 배당금 계산
         futureAssets = futureAssets * (1 + dividendReinvestmentRate * dividendYield + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
 
         // 연간 결과 저장
@@ -97,7 +97,6 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
         futureAssetValues.push(futureAssets);
         years++;
 
-        // 무한 루프 방지용 조건 추가 (최대 100년)
         if (years > 100) {
             break;
         }
@@ -116,7 +115,6 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     // 로컬 스토리지에 데이터 저장
     saveToLocalStorage();
 
-    // 로딩 숨기기
     document.getElementById('loading').style.display = 'none';
     document.getElementById('shareResult').style.display = 'block'; // 결과 공유 버튼 표시
 });
@@ -174,8 +172,6 @@ function drawGoalProgressChart(futureAssetValues, years) {
             }
         }
     });
-
-    document.getElementById('goalProgress').style.display = 'block'; // 차트 표시
 }
 
 // 다크 모드 토글
