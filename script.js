@@ -76,21 +76,15 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     // 계산 로직
     let futureAssets = assets;
     let totalDividend = 0;
-    let years = 0;
+    let years = 0;  // 무한 루프 방지를 위해 초기화
     const futureAssetValues = []; // 자산 변화를 기록할 배열
     const detailedResults = []; // 상세 결과 기록 배열
 
-    // 디버깅을 위한 로그 추가
-    console.log("시작 자산:", futureAssets);
-    console.log("목표 월 배당금:", goalMonthlyDividend);
-    console.log("연간 목표 배당금:", annualGoalDividend);
-
-    // `while` 루프가 목표 배당금에 도달할 때까지 연간 배당금 누적
     while (totalDividend < annualGoalDividend) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
-        totalDividend += annualDividend; // 연간 배당금 누적
+        totalDividend = annualDividend; // 연간 배당금을 목표로 계산
         futureAssets = futureAssets * (1 + dividendReinvestmentRate * dividendYield + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
-
+        
         // 연간 결과 저장
         detailedResults.push({
             year: years,
@@ -102,19 +96,15 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
         futureAssetValues.push(futureAssets);
         years++;
 
-        // 디버깅 로그 출력
-        console.log(`Year ${years}: 자산 ${futureAssets}, 연간 배당금 ${annualDividend}, 누적 배당금 ${totalDividend}`);
-
         // 무한 루프 방지용 조건 추가
         if (years > 100) {
-            console.log("100년 초과, 루프 중단");
             break;
         }
     }
 
     // 목표 달성에 대한 결과 표시
     const result = `목표 월 배당금: ${(goalMonthlyDividend / 10000).toFixed(2)} 만 원에 도달하기까지 약 ${years}년이 걸립니다.`;
-    document.getElementById('result').innerText = result;  // 결과를 화면에 출력
+    document.getElementById('result').innerText = result;
 
     // 상세 결과 표시
     displayDetailedResults(detailedResults);
