@@ -89,7 +89,7 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
         // 연간 결과 저장
         detailedResults.push({
             year: years,
-            annualDividend: (annualDividend / 10000).toFixed(2),
+            annualDividend: (annualDividend / 10000).toFixed(2),  // 연간 배당금 표시
             totalAssets: (futureAssets / 10000).toFixed(2),
         });
 
@@ -128,7 +128,7 @@ function displayDetailedResults(results) {
         detailedResultsDiv.innerHTML += `
             <div>
                 <strong>연차:</strong> ${result.year}년<br>
-                <strong>연초 배당금:</strong> ${result.annualDividend} 만 원<br>
+                <strong>해당 연도 총 배당금:</strong> ${result.annualDividend} 만 원<br>
                 <strong>연말 보유 자산:</strong> ${result.totalAssets} 만 원<br>
                 <hr>
             </div>
