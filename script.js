@@ -55,8 +55,8 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     const stockGrowth = parseFloat(document.getElementById('stockGrowth').value) / 100;
     const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000; // 만원 단위
     const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100;
-    const goalMonthlyDividend = parseFloat(document.getElementById('goalMonthlyDividend').value) * 10000; // 목표 월 배당금 → 연간 목표 배당금 계산
-    const annualGoalDividend = goalMonthlyDividend * 12; // 월 배당금을 연간으로 변환
+    const goalMonthlyDividend = parseFloat(document.getElementById('goalMonthlyDividend').value) * 10000; // 목표 월 배당금을 만원 단위로 변환
+    const annualGoalDividend = goalMonthlyDividend * 12; // 목표 월 배당금을 연간으로 변환
     const dividendReinvestmentRate = parseFloat(document.getElementById('dividendReinvestmentRate').value) / 100;
 
     // 입력값 검증
@@ -75,15 +75,14 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
 
     // 계산 로직
     let futureAssets = assets;
-    let totalDividend = 0; // 누적 배당금을 추적
+    let totalDividend = 0;
     let years = 0;  // 무한 루프 방지를 위해 초기화
     const futureAssetValues = []; // 자산 변화를 기록할 배열
     const detailedResults = []; // 상세 결과 기록 배열
 
-    // while 루프가 올바르게 종료될 수 있도록 totalDividend 누적
     while (totalDividend < annualGoalDividend) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
-        totalDividend += annualDividend; // 연간 배당금을 누적하여 계산
+        totalDividend = annualDividend; // 연간 배당금을 목표로 계산
         futureAssets = futureAssets * (1 + dividendReinvestmentRate * dividendYield + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
         
         // 연간 결과 저장
@@ -183,7 +182,7 @@ document.getElementById('toggle-theme').addEventListener('click', function() {
     document.body.classList.toggle('dark-mode');
 });
 
-// 페이지 로드
+// 페이지 로드 시 데이터 불러오기
 window.onload = () => {
     loadFromLocalStorage();
 };
