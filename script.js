@@ -11,6 +11,7 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
     const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100;
     const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000; // 목표 월 배당금 (만원 단위)
     const dividendReinvestmentRate = parseFloat(document.getElementById('dividendReinvestmentRate').value) / 100;
+    const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
 
     // 초기 변수 설정
     let futureAssets = assets;
@@ -33,6 +34,9 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
 
         // 투자금의 연 증가율 반영
         monthlyInvestment = monthlyInvestment * (1 + investmentGrowth); // 매년 월 투자금 증가
+
+        // 인플레이션 반영
+        futureAssets = futureAssets / (1 + inflationRate); // 자산의 실질 가치 반영
 
         // 연간 자산 및 배당금 데이터 기록
         detailedResults.push({
@@ -68,7 +72,7 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
     saveToLocalStorage();
 });
 
-// 상세 결과 출력 함수 (연차별 배당금, 자산, 재투자 배당금 표시)
+// 상세 결과 출력 함수
 function displayDetailedResults(results) {
     const detailedResultsDiv = document.getElementById('detailedResults');
     detailedResultsDiv.innerHTML = ''; // 기존 내용 삭제
