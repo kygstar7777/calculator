@@ -75,29 +75,32 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
 
     // 계산 로직
     let futureAssets = assets;
-    let years = 0;
     let totalDividend = 0;
+    let years = 0;  // 무한 루프 방지를 위해 초기화
     const futureAssetValues = []; // 자산 변화를 기록할 배열
     const detailedResults = []; // 상세 결과 기록 배열
 
     while (totalDividend < annualGoalDividend) {
         const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
-        totalDividend = annualDividend;
-        futureAssets = futureAssets * (1 + dividendYield * dividendReinvestmentRate + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
+        totalDividend = annualDividend; // 연간 배당금을 목표로 계산
+        futureAssets = futureAssets * (1 + dividendReinvestmentRate * dividendYield + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
         
+        // 연간 결과 저장
         detailedResults.push({
             year: years,
             annualDividend: (annualDividend / 10000).toFixed(2),
             totalAssets: (futureAssets / 10000).toFixed(2),
         });
 
+        // 자산 변화 기록
         futureAssetValues.push(futureAssets);
         years++;
 
-        // 무한 루프 방지
+        // 무한 루프 방지용 조건 추가
         if (years > 100) break;
     }
 
+    // 목표 달성에 대한 결과 표시
     const result = `목표 월 배당금: ${(goalMonthlyDividend / 10000).toFixed(2)} 만 원에 도달하기까지 약 ${years}년이 걸립니다.`;
     document.getElementById('result').innerText = result;
 
@@ -110,7 +113,8 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     // 로컬 스토리지에 데이터 저장
     saveToLocalStorage();
 
-    document.getElementById('loading').style.display = 'none'; // 로딩 숨기기
+    // 로딩 숨기기
+    document.getElementById('loading').style.display = 'none';
     document.getElementById('shareResult').style.display = 'block'; // 결과 공유 버튼 표시
 });
 
@@ -131,7 +135,7 @@ function displayDetailedResults(results) {
     });
 }
 
-// 차트 그리기
+// 차트 그리기 함수
 function drawGoalProgressChart(futureAssetValues, years) {
     const ctx = document.getElementById('goalProgress').getContext('2d');
     const labels = Array.from({ length: years }, (_, i) => `Year ${i}`);
@@ -150,30 +154,4 @@ function drawGoalProgressChart(futureAssetValues, years) {
         },
         options: {
             responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: '금액 (만원)'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: '년도'
-                    }
-                }
-            }
-        }
-    });
-
-    document.getElementById('goalProgress').style.display = 'block'; // 차트 표시
-}
-
-// 다크 모드 토글
-document.getElementById('toggle-theme').addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
-});
-
-// 페이지 로드
+            scales:
