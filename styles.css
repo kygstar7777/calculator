@@ -79,44 +79,19 @@ input:focus, select:focus {
     height: 400px;
 }
 
-.btn-share, .btn-theme {
-    margin-top: 10px;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.btn-share {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.btn-share:hover {
-    background-color: #218838;
-}
-
 .btn-theme {
     background-color: #343a40;
     color: white;
     border: none;
     border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.btn-theme:hover {
-    background-color: #23272b;
+    margin-top: 20px;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .dark-mode {
     background-color: #121212;
     color: #fff;
-}
-
-.dark-mode .calculator {
-    background-color: rgba(30, 30, 30, 0.85);
-    border: 1px solid #444;
 }
 
 .dark-mode input, .dark-mode select {
@@ -125,25 +100,7 @@ input:focus, select:focus {
     border-color: #555;
 }
 
-/* 다크모드에서 시안성 개선 */
-.dark-mode label {
-    color: #bbb;
-}
-
-.dark-mode .btn-calculate {
-    background-color: #1a73e8;
-    color: white;
-}
-
-.dark-mode .btn-calculate:hover {
-    background-color: #0f4eb3;
-}
-
 .dark-mode .result, .dark-mode .detailed-results {
     background-color: rgba(40, 40, 40, 0.9);
     color: #ddd;
-}
-
-.dark-mode .loading {
-    color: white;
 }
