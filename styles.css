@@ -1,7 +1,7 @@
 /* 기본 스타일 */
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f5f5f5;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
     color: #333;
     margin: 0;
     padding: 20px;
@@ -84,7 +84,7 @@ input:focus {
     margin-top: 30px;
 }
 
-.btn-theme {
+.btn-theme, .btn-compare, .btn-save, .btn-share {
     background-color: #333;
     color: white;
     border: none;
@@ -94,14 +94,14 @@ input:focus {
     border-radius: 10px;
 }
 
+.btn-compare:hover, .btn-save:hover, .btn-share:hover, .btn-theme:hover {
+    background-color: #555;
+}
+
 /* 다크 모드 */
 .dark-mode {
     background-color: #121212;
     color: #ddd;
-}
-
-.dark-mode .container {
-    background-color: #222;
 }
 
 .dark-mode input {
