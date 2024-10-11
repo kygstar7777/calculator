@@ -3,51 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배당파이어 계산기</title>
     <link rel="stylesheet" href="styles.css">
-    <title>목표 월 배당금 계산기</title>
 </head>
 <body>
     <div class="container">
-        <h1>목표 월 배당금 계산기</h1>
+        <h1>배당파이어 계산기</h1>
         <form id="calculatorForm" class="calculator">
             <div class="input-group">
                 <label for="assets">현재 자산 (만원):</label>
-                <input type="number" id="assets" required min="0">
+                <input type="number" id="assets" required min="0" placeholder="예: 1000">
             </div>
             <div class="input-group">
                 <label for="dividendYield">배당 수익률 (%):</label>
-                <input type="number" id="dividendYield" required min="0" step="0.1">
+                <input type="number" id="dividendYield" required min="0" step="0.1" placeholder="예: 4">
             </div>
             <div class="input-group">
-                <label for="dividendGrowth">배당금 성장률 (%):</label>
-                <input type="number" id="dividendGrowth" required min="0" step="0.1">
+                <label for="dividendGrowth">배당 상승률 (%):</label>
+                <input type="number" id="dividendGrowth" required min="0" step="0.1" placeholder="예: 5">
             </div>
             <div class="input-group">
-                <label for="stockGrowth">주식 성장률 (%):</label>
-                <input type="number" id="stockGrowth" required min="0" step="0.1">
+                <label for="stockGrowth">주가 상승률 (%):</label>
+                <input type="number" id="stockGrowth" required min="0" step="0.1" placeholder="예: 3">
             </div>
             <div class="input-group">
                 <label for="monthlyInvestment">월 투자금 (만원):</label>
-                <input type="number" id="monthlyInvestment" required min="0">
+                <input type="number" id="monthlyInvestment" required min="0" placeholder="예: 50">
             </div>
             <div class="input-group">
-                <label for="investmentGrowth">투자 성장률 (%):</label>
-                <input type="number" id="investmentGrowth" required min="0" step="0.1">
+                <label for="investmentGrowth">월 투자금의 연 증가율 (%):</label>
+                <input type="number" id="investmentGrowth" required min="0" step="0.1" placeholder="예: 2">
             </div>
             <div class="input-group">
-                <label for="goalMonthlyDividend">목표 월 배당금 (만원):</label>
-                <input type="number" id="goalMonthlyDividend" required min="0">
+                <label for="goalDividend">월 배당금 목표액 (만원):</label>
+                <input type="number" id="goalDividend" required min="0" placeholder="예: 100">
             </div>
             <div class="input-group">
                 <label for="dividendReinvestmentRate">배당금 재투자 비율 (%):</label>
-                <input type="number" id="dividendReinvestmentRate" required min="0" max="100" step="0.1">
+                <input type="number" id="dividendReinvestmentRate" required min="0" max="100" step="0.1" placeholder="예: 100">
             </div>
             <button type="submit" class="btn-calculate">계산하기</button>
             <div id="loading" class="loading">계산 중...</div>
         </form>
         <div id="result" class="result"></div>
-        <div id="detailedResults" class="detailed-results"></div>
-        <canvas id="goalProgress" class="chart" style="display:none;"></canvas>
+        <canvas id="growthChart" class="chart" style="display:none;"></canvas>
         <button id="toggle-theme" class="btn-theme">다크 모드</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
