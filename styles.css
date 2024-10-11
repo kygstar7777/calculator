@@ -124,3 +124,26 @@ input:focus, select:focus {
     color: white;
     border-color: #555;
 }
+
+/* 다크모드에서 시안성 개선 */
+.dark-mode label {
+    color: #bbb;
+}
+
+.dark-mode .btn-calculate {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.dark-mode .btn-calculate:hover {
+    background-color: #0f4eb3;
+}
+
+.dark-mode .result, .dark-mode .detailed-results {
+    background-color: rgba(40, 40, 40, 0.9);
+    color: #ddd;
+}
+
+.dark-mode .loading {
+    color: white;
+}
