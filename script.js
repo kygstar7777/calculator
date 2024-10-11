@@ -6,7 +6,7 @@ function saveToLocalStorage() {
     const stockGrowth = document.getElementById('stockGrowth').value;
     const monthlyInvestment = document.getElementById('monthlyInvestment').value;
     const investmentGrowth = document.getElementById('investmentGrowth').value;
-    const goalDividend = document.getElementById('goalDividend').value;
+    const goalMonthlyDividend = document.getElementById('goalMonthlyDividend').value;
     const dividendReinvestmentRate = document.getElementById('dividendReinvestmentRate').value;
 
     localStorage.setItem('assets', assets);
@@ -15,7 +15,7 @@ function saveToLocalStorage() {
     localStorage.setItem('stockGrowth', stockGrowth);
     localStorage.setItem('monthlyInvestment', monthlyInvestment);
     localStorage.setItem('investmentGrowth', investmentGrowth);
-    localStorage.setItem('goalDividend', goalDividend);
+    localStorage.setItem('goalMonthlyDividend', goalMonthlyDividend);
     localStorage.setItem('dividendReinvestmentRate', dividendReinvestmentRate);
 }
 
@@ -27,7 +27,7 @@ function loadFromLocalStorage() {
     document.getElementById('stockGrowth').value = localStorage.getItem('stockGrowth') || 5.0;
     document.getElementById('monthlyInvestment').value = localStorage.getItem('monthlyInvestment') || 50;
     document.getElementById('investmentGrowth').value = localStorage.getItem('investmentGrowth') || 3.0;
-    document.getElementById('goalDividend').value = localStorage.getItem('goalDividend') || 200;
+    document.getElementById('goalMonthlyDividend').value = localStorage.getItem('goalMonthlyDividend') || 20; // 목표 월 배당금 (기본값 20만원)
     document.getElementById('dividendReinvestmentRate').value = localStorage.getItem('dividendReinvestmentRate') || 100;
 }
 
@@ -55,7 +55,8 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     const stockGrowth = parseFloat(document.getElementById('stockGrowth').value) / 100;
     const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) * 10000; // 만원 단위
     const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) / 100;
-    const goalDividend = parseFloat(document.getElementById('goalDividend').value) * 10000; // 만원 단위
+    const goalMonthlyDividend = parseFloat(document.getElementById('goalMonthlyDividend').value) * 10000; // 목표 월 배당금 → 연간 목표 배당금 계산
+    const annualGoalDividend = goalMonthlyDividend * 12; // 월 배당금을 연간으로 변환
     const dividendReinvestmentRate = parseFloat(document.getElementById('dividendReinvestmentRate').value) / 100;
 
     // 입력값 검증
@@ -65,7 +66,7 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
         !validateInput(stockGrowth, 'stockGrowth', '유효한 주식 성장률을 입력하세요.') ||
         !validateInput(monthlyInvestment, 'monthlyInvestment', '유효한 투자금을 입력하세요.') ||
         !validateInput(investmentGrowth, 'investmentGrowth', '유효한 투자 성장률을 입력하세요.') ||
-        !validateInput(goalDividend, 'goalDividend', '유효한 목표 배당금을 입력하세요.') ||
+        !validateInput(goalMonthlyDividend, 'goalMonthlyDividend', '유효한 목표 월 배당금을 입력하세요.') ||
         !validateInput(dividendReinvestmentRate, 'dividendReinvestmentRate', '유효한 재투자 비율을 입력하세요.')) {
         return;
     }
@@ -79,11 +80,11 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
     const futureAssetValues = []; // 자산 변화를 기록할 배열
     const detailedResults = []; // 상세 결과 기록 배열
 
-    while (totalDividend < goalDividend) {
-        const annualDividend = futureAssets * dividendYield; // 연간 배당금
+    while (totalDividend < annualGoalDividend) {
+        const annualDividend = futureAssets * dividendYield; // 연간 배당금 계산
+        totalDividend = annualDividend;
         futureAssets = futureAssets * (1 + dividendYield * dividendReinvestmentRate + dividendGrowth) + monthlyInvestment * 12 * (1 + investmentGrowth);
-        totalDividend += annualDividend;
-
+        
         detailedResults.push({
             year: years,
             annualDividend: (annualDividend / 10000).toFixed(2),
@@ -97,7 +98,7 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
         if (years > 100) break;
     }
 
-    const result = `목표 배당금: ${(goalDividend / 10000).toFixed(2)} 만 원에 도달하기까지 약 ${years}년이 걸립니다.`;
+    const result = `목표 월 배당금: ${(goalMonthlyDividend / 10000).toFixed(2)} 만 원에 도달하기까지 약 ${years}년이 걸립니다.`;
     document.getElementById('result').innerText = result;
 
     // 상세 결과 표시
@@ -175,7 +176,4 @@ document.getElementById('toggle-theme').addEventListener('click', function() {
     document.body.classList.toggle('dark-mode');
 });
 
-// 페이지 로드 시 데이터 불러오기
-window.onload = () => {
-    loadFromLocalStorage();
-};
+// 페이지 로드
